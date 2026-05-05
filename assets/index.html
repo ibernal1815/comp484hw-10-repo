@@ -4,26 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HW10 Chrome DevTools</title>
-
-  <!-- Google Fonts: IBM Plex Mono for code/labels, IBM Plex Sans for body text -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
-  <!-- External stylesheet — all visual styling lives in style.css -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- ============================================================
      HEADER
-     Shows the assignment label and a reminder to open DevTools.
      ============================================================ -->
 <header>
   <div class="header-left">
     <div class="kicker">CIT 336 &nbsp;/ &nbsp;HW10</div>
     <h1>Chrome DevTools Console</h1>
   </div>
-  <!-- Displayed top-right as a quick reminder for graders/demo viewers -->
   <div class="header-right">
     Open DevTools<br>
     F12 &rarr; Console tab<br>
@@ -33,62 +27,44 @@
 
 <!-- ============================================================
      TAB NAVIGATION
-     Each button carries a data-tab attribute. The click listener
-     in script.js reads that value to show the matching section
-     and hide the others.
+     data-tab value maps to the section id "tab-{value}"
      ============================================================ -->
 <nav id="nav">
   <button class="active" data-tab="logging">Message Logging</button>
   <button data-tab="browser">Browser Errors</button>
   <button data-tab="filter">Filter Messages</button>
+  <button data-tab="debug">Debugging</button>
 </nav>
 
 <main>
 
   <!-- ==========================================================
        TAB 1: MESSAGE LOGGING
-       Covers: console.info, console.warn, console.error,
-               console.table, console.group, console.log (%c)
-
-       Each block has:
-         - A trigger button that calls a function in script.js
-         - A description explaining what the method does
-         - A fake terminal window that previews the output inline
-           (the real output also fires to the DevTools Console)
        ========================================================== -->
   <section id="tab-logging" class="section active">
     <div class="section-title">Message Logging</div>
 
-    <!-- LOG INFO
-         console.info() is semantically for informational status messages.
-         DevTools shows a blue (i) icon next to these entries and they are
-         filterable via the "Info" level in the log-level dropdown. -->
+    <!-- LOG INFO -->
     <div class="block">
       <div class="block-label">console.info()</div>
       <div class="block-desc">
         Outputs an informational message. Renders with a blue icon in DevTools
         and is filterable under the Info level.
       </div>
-      <!-- onclick calls runInfo() defined in script.js -->
       <button class="btn b" onclick="runInfo()">Run console.info</button>
-      <!-- Fake terminal window: the three colored dots mimic macOS traffic lights -->
       <div class="console">
         <div class="console-bar">
           <span class="dot" style="background:#ff5f57"></span>
           <span class="dot" style="background:#febc2e"></span>
           <span class="dot" style="background:#28c840"></span>
         </div>
-        <!-- Output lines are injected here by addLine() in script.js -->
         <div class="console-body" id="out-info"></div>
       </div>
     </div>
 
     <hr class="divider">
 
-    <!-- LOG WARNING
-         console.warn() is for non-fatal issues that need attention.
-         DevTools styles entries in yellow with a triangle icon and
-         increments the warning counter in the toolbar. -->
+    <!-- LOG WARNING -->
     <div class="block">
       <div class="block-label">console.warn()</div>
       <div class="block-desc">
@@ -108,10 +84,7 @@
 
     <hr class="divider">
 
-    <!-- LOG ERROR
-         console.error() is for failures and exceptions. DevTools renders
-         these in red with a full expandable stack trace attached.
-         Also increments the red error counter in the toolbar. -->
+    <!-- LOG ERROR -->
     <div class="block">
       <div class="block-label">console.error()</div>
       <div class="block-desc">
@@ -131,11 +104,7 @@
 
     <hr class="divider">
 
-    <!-- LOG TABLE
-         console.table() accepts an array of objects and renders them as
-         a sortable, interactive table in DevTools. Each object key becomes
-         a column header. The HTML table below is a static visual preview
-         of the same analyst data passed to console.table(). -->
+    <!-- LOG TABLE -->
     <div class="block">
       <div class="block-label">console.table()</div>
       <div class="block-desc">
@@ -144,8 +113,6 @@
         shows the data being passed in.
       </div>
       <button class="btn g" onclick="runTable()">Run console.table</button>
-
-      <!-- Static HTML preview of the analyst array that gets passed to console.table() -->
       <table class="data-table">
         <thead><tr><th>name</th><th>role</th><th>clearance</th></tr></thead>
         <tbody>
@@ -154,7 +121,6 @@
           <tr><td>Carol</td><td>Pen Tester</td><td>L2</td></tr>
         </tbody>
       </table>
-
       <div class="console">
         <div class="console-bar">
           <span class="dot" style="background:#ff5f57"></span>
@@ -167,11 +133,7 @@
 
     <hr class="divider">
 
-    <!-- LOG GROUP
-         console.group() opens a collapsible group in DevTools.
-         All console calls between group() and groupEnd() are nested
-         under that header. Groups can be nested for deeper hierarchy.
-         Useful for organizing request data, event payloads, etc. -->
+    <!-- LOG GROUP -->
     <div class="block">
       <div class="block-label">console.group()</div>
       <div class="block-desc">
@@ -192,12 +154,7 @@
 
     <hr class="divider">
 
-    <!-- LOG CUSTOM (styled with %c)
-         The %c format specifier lets you inject CSS into a console.log call.
-         The browser applies the CSS string (passed as the 2nd argument)
-         to the text that follows the %c token.
-         Multiple %c tokens can appear in the same string for multi-style output.
-         This only works in Chromium-based browsers. -->
+    <!-- LOG CUSTOM -->
     <div class="block">
       <div class="block-label">console.log() with %c styling</div>
       <div class="block-desc">
@@ -221,20 +178,11 @@
 
   <!-- ==========================================================
        TAB 2: BROWSER ERRORS
-       Covers: 404 network error, TypeError, Violation
-
-       These are messages the browser logs on its own — not written
-       by user code — demonstrating how DevTools surfaces them
-       automatically when something goes wrong at runtime.
        ========================================================== -->
   <section id="tab-browser" class="section">
     <div class="section-title">View Messages Logged by the Browser</div>
 
-    <!-- 404 NETWORK ERROR
-         cause404() in script.js calls fetch() with a path that does not
-         exist on the server. The browser returns HTTP 404 and automatically
-         logs a red network error in the Console. The same failed request
-         also appears in the Network tab with status 404. -->
+    <!-- 404 -->
     <div class="block">
       <div class="block-label">404 Network Error</div>
       <div class="block-desc">
@@ -243,11 +191,7 @@
         in the Network tab with status 404.
       </div>
       <button class="btn r" onclick="cause404()">Trigger 404</button>
-
-      <!-- Displays the caught error message text after the fetch rejects -->
       <div class="outbox" id="out-404">Waiting for trigger...</div>
-
-      <!-- Tells the grader exactly where to look in DevTools -->
       <div class="callout">
         <strong>Where to look:</strong> Console tab shows a red network error
         entry. Network tab shows the failed request with status 404. Filter
@@ -257,12 +201,7 @@
 
     <hr class="divider">
 
-    <!-- TYPEERROR
-         causeTypeError() in script.js intentionally calls .toUpperCase() on
-         an undefined variable. This produces a TypeError at runtime.
-         The error is caught with try/catch so the page keeps running,
-         and then re-logged via console.error() so DevTools shows the
-         full stack trace as it would in a real uncaught scenario. -->
+    <!-- TYPEERROR -->
     <div class="block">
       <div class="block-label">TypeError</div>
       <div class="block-desc">
@@ -271,10 +210,7 @@
         it with a full stack trace pointing to the source line.
       </div>
       <button class="btn r" onclick="causeTypeError()">Trigger TypeError</button>
-
-      <!-- Displays the caught error name + message string -->
       <div class="outbox" id="out-type">Waiting for trigger...</div>
-
       <div class="callout">
         <strong>Where to look:</strong> Console tab shows the red TypeError
         entry. Click the source link on the right side of the entry to jump
@@ -284,21 +220,7 @@
 
     <hr class="divider">
 
-    <!-- VIOLATION
-         Chrome fires [Violation] warnings when the main thread is blocked
-         longer than ~50ms. causeViolation() in script.js demonstrates two
-         patterns that trigger these warnings:
-
-           1. Forced layout reflow — the loop alternates writing a style
-              property and reading offsetWidth. Each offsetWidth read forces
-              Chrome to recalculate layout synchronously, which the browser
-              flags as a "Forced reflow" violation.
-
-           2. Busy-wait loop — spins for ~120ms doing nothing, blocking
-              the thread long enough to trigger a "Long running JavaScript
-              task" violation.
-
-         Violations appear under the Verbose log level in the Console. -->
+    <!-- VIOLATION -->
     <div class="block">
       <div class="block-label">Violation</div>
       <div class="block-desc">
@@ -308,10 +230,7 @@
         Console log level to Verbose to see these entries.
       </div>
       <button class="btn a" onclick="causeViolation()">Trigger Violation</button>
-
-      <!-- Shows elapsed time of the blocking task once it finishes -->
       <div class="outbox" id="out-violation">Waiting for trigger...</div>
-
       <div class="callout">
         <strong>Where to look:</strong> Open Console, set the log level
         dropdown to Verbose. After triggering, look for yellow [Violation]
@@ -324,21 +243,10 @@
 
   <!-- ==========================================================
        TAB 3: FILTER MESSAGES
-       Covers: filter by level, text, regex, source, user messages
-
-       Workflow:
-         1. Click "Seed Console" to write 10 mixed entries to the real
-            DevTools Console and to the in-memory store[] array in script.js.
-         2. Use each filter control below to see matching entries rendered.
-            This mirrors what the DevTools filter bar does natively.
        ========================================================== -->
   <section id="tab-filter" class="section">
     <div class="section-title">Filter Messages</div>
 
-    <!-- SEED BUTTON
-         seedAll() in script.js writes 10 varied entries (info/warn/error/log)
-         from sources: script, network, browser — both to the DevTools console
-         and to the store[] array that all filter functions below query. -->
     <div class="block">
       <div class="block-desc">
         Click below to seed the DevTools console with 10 mixed log entries
@@ -346,17 +254,12 @@
         how DevTools isolates them.
       </div>
       <button class="btn g" onclick="seedAll()">Seed Console</button>
-      <!-- seedAll() updates this text with a timestamp after writing entries -->
       <div class="hint-text" id="seed-hint">10 entries will be written to the DevTools console.</div>
     </div>
 
     <hr class="divider">
 
-    <!-- FILTER BY LOG LEVEL
-         In DevTools, the log-level dropdown in the top-right of the Console
-         panel can be set to: Default, Verbose, Info, Warnings, or Errors.
-         Selecting a level hides all entries that do not match that severity.
-         filterLevel() in script.js does the same on store[]. -->
+    <!-- FILTER BY LOG LEVEL -->
     <div class="block">
       <div class="block-label">Filter by Log Level</div>
       <div class="block-desc">
@@ -366,7 +269,6 @@
       </div>
       <div class="filter-row">
         <span class="filter-label">Level</span>
-        <!-- onchange fires filterLevel() which filters store[] and re-renders -->
         <select class="finput" id="level-select" onchange="filterLevel()">
           <option value="all">All</option>
           <option value="info">Info</option>
@@ -375,16 +277,12 @@
           <option value="log">Log</option>
         </select>
       </div>
-      <!-- renderFilter() injects matching entries as tag+message rows here -->
       <div class="filter-result" id="level-result"></div>
     </div>
 
     <hr class="divider">
 
-    <!-- FILTER BY TEXT
-         In DevTools, typing plain text into the filter bar hides any console
-         message that does not contain that string (case insensitive).
-         filterText() in script.js performs the same substring match on store[]. -->
+    <!-- FILTER BY TEXT -->
     <div class="block">
       <div class="block-label">Filter by Text</div>
       <div class="block-desc">
@@ -393,7 +291,6 @@
       </div>
       <div class="filter-row">
         <span class="filter-label">Search</span>
-        <!-- oninput fires on every keystroke for real-time filtering -->
         <input class="finput" id="text-input" placeholder="e.g. fetch" oninput="filterText()">
       </div>
       <div class="filter-result" id="text-result"></div>
@@ -401,11 +298,7 @@
 
     <hr class="divider">
 
-    <!-- FILTER BY REGEX
-         In DevTools, prefixing a filter string with / enables regex mode.
-         e.g. /404|type/i matches messages containing either "404" or "type"
-         (case insensitive). filterRegex() in script.js detects the
-         /pattern/flags syntax and constructs a RegExp object to test store[]. -->
+    <!-- FILTER BY REGEX -->
     <div class="block">
       <div class="block-label">Filter by Regular Expression</div>
       <div class="block-desc">
@@ -423,12 +316,7 @@
 
     <hr class="divider">
 
-    <!-- FILTER BY MESSAGE SOURCE
-         DevTools categorizes messages by where they originated:
-           network  — errors from fetch/XHR calls (404s, CORS failures, etc.)
-           script   — user-written console.* calls
-           browser  — runtime messages: CSP violations, deprecations, etc.
-         filterSource() in script.js filters store[] by the source property. -->
+    <!-- FILTER BY SOURCE -->
     <div class="block">
       <div class="block-label">Filter by Message Source</div>
       <div class="block-desc">
@@ -440,9 +328,9 @@
         <span class="filter-label">Source</span>
         <select class="finput" id="source-select" onchange="filterSource()">
           <option value="all">All sources</option>
-          <option value="network">network</option>  <!-- fetch/XHR errors -->
-          <option value="script">script</option>    <!-- user console.* calls -->
-          <option value="browser">browser</option>  <!-- CSP, violations, etc. -->
+          <option value="network">network</option>
+          <option value="script">script</option>
+          <option value="browser">browser</option>
         </select>
       </div>
       <div class="filter-result" id="source-result"></div>
@@ -450,11 +338,7 @@
 
     <hr class="divider">
 
-    <!-- FILTER BY USER MESSAGES
-         DevTools sidebar has a "User messages" shortcut that toggles
-         visibility of only messages written by the developer's own JS code,
-         hiding everything the browser logged automatically.
-         filterUser() in script.js uses the user:true/false flag on store[]. -->
+    <!-- FILTER BY USER MESSAGES -->
     <div class="block">
       <div class="block-label">Filter by User Messages</div>
       <div class="block-desc">
@@ -466,8 +350,8 @@
         <span class="filter-label">Show</span>
         <select class="finput" id="user-select" onchange="filterUser()">
           <option value="all">All messages</option>
-          <option value="user">User messages</option>      <!-- user:true in store[] -->
-          <option value="browser">Browser messages</option> <!-- user:false in store[] -->
+          <option value="user">User messages</option>
+          <option value="browser">Browser messages</option>
         </select>
       </div>
       <div class="filter-result" id="user-result"></div>
@@ -475,11 +359,261 @@
 
   </section>
 
+
+  <!-- ==========================================================
+       TAB 4: DEBUGGING
+       Covers: reproduce a bug, Sources UI, breakpoints,
+       variable inspection (Scope, Watch, Console), apply a fix.
+
+       Scenario: calcTotalScore() is supposed to sum numeric scores
+       from a list of security alerts. The bug is that it reads
+       alert.severity (a string) instead of alert.score (a number),
+       so the result is NaN.
+
+       Steps 1-2 are triggered by buttons on the page.
+       Steps 3-7 are done manually in DevTools — instructions
+       explain exactly what to click for each screenshot.
+       ========================================================== -->
+  <section id="tab-debug" class="section">
+    <div class="section-title">Debugging</div>
+
+    <!-- STEP 1: REPRODUCE THE BUG
+         runBuggy() calls calcTotalScore() which has the wrong property
+         name. The result is NaN. This is what we need to debug. -->
+    <div class="block">
+      <div class="step-badge">Step 1</div>
+      <div class="block-label">Reproduce the Bug</div>
+      <div class="block-desc">
+        The function <code>calcTotalScore()</code> is supposed to sum the
+        numeric score from each security alert and return a total. Instead
+        it returns <code>NaN</code> because it reads <code>alert.severity</code>
+        (a string like "high") instead of <code>alert.score</code> (a number).
+        Click the button to reproduce the broken output.
+      </div>
+      <button class="btn r" onclick="runBuggy()">Run Buggy Function</button>
+      <div class="outbox" id="out-buggy">Output will appear here...</div>
+      <div class="callout">
+        <strong>What to look for:</strong> The result printed to the Console
+        will be <code>NaN</code> instead of a number. This is the bug we will
+        isolate using the Sources panel.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- STEP 2: GET FAMILIAR WITH THE SOURCES UI
+         Describes the three panes of the Sources panel so the student
+         knows where to look before setting a breakpoint. -->
+    <div class="block">
+      <div class="step-badge">Step 2</div>
+      <div class="block-label">Get Familiar with the Sources UI</div>
+      <div class="block-desc">
+        Open DevTools (F12) and click the <strong>Sources</strong> tab.
+        The panel has three panes working together.
+      </div>
+
+      <!-- Three-column layout, one card per pane -->
+      <div class="pane-grid">
+
+        <div class="pane-card">
+          <div class="pane-title">File Navigator</div>
+          <div class="pane-body">
+            Left pane. Lists every file the page loaded — HTML, CSS, JS.
+            Click <code>script.js</code> here to open it in the editor pane.
+          </div>
+        </div>
+
+        <div class="pane-card">
+          <div class="pane-title">Code Editor</div>
+          <div class="pane-body">
+            Center pane. Shows the source code of the selected file.
+            Click any line number to set a breakpoint on that line.
+            A blue marker appears when a breakpoint is active.
+          </div>
+        </div>
+
+        <div class="pane-card">
+          <div class="pane-title">Debugger Pane</div>
+          <div class="pane-body">
+            Right pane. Shows Breakpoints, Scope variables, Watch
+            Expressions, and the Call Stack when execution is paused.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout" style="margin-top:12px">
+        <strong>Screenshot this:</strong> Open Sources and click
+        <code>script.js</code> in the File Navigator. Take a screenshot
+        showing all three panes visible at the same time.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- STEP 3: SET A LINE-OF-CODE BREAKPOINT
+         Tells the student exactly which line to click in script.js. -->
+    <div class="block">
+      <div class="step-badge">Step 3</div>
+      <div class="block-label">Set a Line-of-Code Breakpoint</div>
+      <div class="block-desc">
+        In the Sources panel with <code>script.js</code> open, scroll to the
+        function <code>calcTotalScore()</code>. Click the line number next to
+        this line:
+      </div>
+      <div class="code-block">total += alert.severity;</div>
+      <div class="block-desc" style="margin-top:10px">
+        A blue marker will appear on that line number confirming the breakpoint
+        is active. It also shows up in the Breakpoints list in the right pane.
+      </div>
+      <div class="callout">
+        <strong>Screenshot this:</strong> The blue breakpoint marker on the
+        line in the code editor, and the entry in the Breakpoints list.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- STEP 4: PAUSE CODE WITH A BREAKPOINT
+         The student clicks Run Buggy Function again — this time with the
+         breakpoint set, execution will pause on that line. -->
+    <div class="block">
+      <div class="step-badge">Step 4</div>
+      <div class="block-label">Pause the Code with a Breakpoint</div>
+      <div class="block-desc">
+        With the breakpoint set, click the button below. DevTools will pause
+        execution on the breakpoint line before it runs. The page will freeze
+        briefly — that is normal. You will see the current line highlighted
+        in the Sources panel.
+      </div>
+      <button class="btn a" onclick="runBuggy()">Run and Hit Breakpoint</button>
+      <div class="callout" style="margin-top:10px">
+        <strong>Screenshot this:</strong> The Sources panel paused on the
+        highlighted breakpoint line, with the blue execution marker on the
+        left side of the line.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- STEP 5: CHECK VARIABLE VALUES
+         Three sub-sections: Scope pane, Watch Expressions, Console. -->
+    <div class="block">
+      <div class="step-badge">Step 5</div>
+      <div class="block-label">Check Variable Values</div>
+      <div class="block-desc">
+        While paused, DevTools gives you three ways to inspect variable values.
+      </div>
+
+      <!-- Scope Pane -->
+      <div class="inspect-block">
+        <div class="inspect-label">Scope Pane</div>
+        <div class="inspect-desc">
+          In the right pane, open the <strong>Scope</strong> section. It shows
+          every variable currently in scope at the paused line. Look for:
+          <code>total</code>, <code>alert</code>, and <code>alerts</code>.
+          You will see <code>alert.severity</code> is a string like
+          <code>"high"</code> — that is why adding it to a number produces NaN.
+        </div>
+        <div class="callout">
+          <strong>Screenshot this:</strong> The Scope section expanded showing
+          the local variables including <code>alert</code> and its properties.
+        </div>
+      </div>
+
+      <!-- Watch Expressions -->
+      <div class="inspect-block">
+        <div class="inspect-label">Watch Expressions</div>
+        <div class="inspect-desc">
+          In the right pane, click the <strong>Watch</strong> section and hit
+          the + button. Add these two expressions one at a time:
+        </div>
+        <div class="code-block">alert.severity</div>
+        <div class="code-block" style="margin-top:6px">alert.score</div>
+        <div class="inspect-desc" style="margin-top:8px">
+          DevTools evaluates both in real time. You will see
+          <code>alert.severity</code> returns a string and
+          <code>alert.score</code> returns the correct number we should
+          be using.
+        </div>
+        <div class="callout">
+          <strong>Screenshot this:</strong> The Watch section showing both
+          expressions and their evaluated values side by side.
+        </div>
+      </div>
+
+      <!-- Console while paused -->
+      <div class="inspect-block">
+        <div class="inspect-label">The Console</div>
+        <div class="inspect-desc">
+          While still paused, switch to the Console tab. You can type
+          expressions directly and they evaluate in the current scope.
+          Try typing:
+        </div>
+        <div class="code-block">alert.score</div>
+        <div class="code-block" style="margin-top:6px">typeof alert.severity</div>
+        <div class="inspect-desc" style="margin-top:8px">
+          The first returns the correct numeric score. The second returns
+          <code>"string"</code> — confirming that severity is not a number
+          and cannot be summed.
+        </div>
+        <div class="callout">
+          <strong>Screenshot this:</strong> The Console with both expressions
+          typed in and their return values visible.
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider">
+
+    <!-- STEP 6: APPLY THE FIX
+         Shows the before/after code and lets the student run the
+         fixed version to confirm it produces the correct total. -->
+    <div class="block">
+      <div class="step-badge">Step 6</div>
+      <div class="block-label">Apply the Fix</div>
+      <div class="block-desc">
+        Resume execution by pressing the blue play button in DevTools (or F8),
+        then remove the breakpoint by clicking the marker again. The fix is to
+        change <code>alert.severity</code> to <code>alert.score</code> inside
+        the loop. The corrected function is already available as
+        <code>calcTotalScoreFixed()</code> in script.js. Click below to run it
+        and confirm it returns the correct total.
+      </div>
+
+      <!-- Side-by-side before/after diff -->
+      <div class="diff-grid">
+        <div class="diff-panel">
+          <div class="diff-label bad">Before (buggy)</div>
+          <div class="code-block diff-code">
+            alerts.forEach(function(alert) {<br>
+            &nbsp;&nbsp;total += alert.severity;<br>
+            });
+          </div>
+        </div>
+        <div class="diff-panel">
+          <div class="diff-label good">After (fixed)</div>
+          <div class="code-block diff-code">
+            alerts.forEach(function(alert) {<br>
+            &nbsp;&nbsp;total += alert.score;<br>
+            });
+          </div>
+        </div>
+      </div>
+
+      <button class="btn g" onclick="runFixed()" style="margin-top:14px">Run Fixed Function</button>
+      <div class="outbox" id="out-fixed">Output will appear here...</div>
+      <div class="callout">
+        <strong>Screenshot this:</strong> The output box and Console both
+        showing the correct numeric total instead of NaN.
+      </div>
+    </div>
+
+  </section>
+
 </main>
 
-<!-- External JS — all interactivity and console calls live in script.js.
-     Placed at the bottom of <body> so the DOM is fully parsed before
-     the script runs and getElementById() calls succeed. -->
 <script src="script.js"></script>
 </body>
 </html>
