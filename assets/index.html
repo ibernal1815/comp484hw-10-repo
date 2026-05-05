@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HW10 Chrome DevTools</title>
+
+  <!-- Google Fonts: IBM Plex Mono for code/labels, IBM Plex Sans for body text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- External stylesheet — all visual styling lives in style.css -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     Shows the assignment label and a reminder to open DevTools.
+     ============================================================ -->
+<header>
+  <div class="header-left">
+    <div class="kicker">CIT 336 &nbsp;/ &nbsp;HW10</div>
+    <h1>Chrome DevTools Console</h1>
+  </div>
+  <!-- Displayed top-right as a quick reminder for graders/demo viewers -->
+  <div class="header-right">
+    Open DevTools<br>
+    F12 &rarr; Console tab<br>
+    to see live output
+  </div>
+</header>
+
+<!-- ============================================================
+     TAB NAVIGATION
+     Each button carries a data-tab attribute. The click listener
+     in script.js reads that value to show the matching section
+     and hide the others.
+     ============================================================ -->
+<nav id="nav">
+  <button class="active" data-tab="logging">Message Logging</button>
+  <button data-tab="browser">Browser Errors</button>
+  <button data-tab="filter">Filter Messages</button>
+</nav>
+
+<main>
+
+  <!-- ==========================================================
+       TAB 1: MESSAGE LOGGING
+       Covers: console.info, console.warn, console.error,
+               console.table, console.group, console.log (%c)
+
+       Each block has:
+         - A trigger button that calls a function in script.js
+         - A description explaining what the method does
+         - A fake terminal window that previews the output inline
+           (the real output also fires to the DevTools Console)
+       ========================================================== -->
+  <section id="tab-logging" class="section active">
+    <div class="section-title">Message Logging</div>
+
+    <!-- LOG INFO
+         console.info() is semantically for informational status messages.
+         DevTools shows a blue (i) icon next to these entries and they are
+         filterable via the "Info" level in the log-level dropdown. -->
+    <div class="block">
+      <div class="block-label">console.info()</div>
+      <div class="block-desc">
+        Outputs an informational message. Renders with a blue icon in DevTools
+        and is filterable under the Info level.
+      </div>
+      <!-- onclick calls runInfo() defined in script.js -->
+      <button class="btn b" onclick="runInfo()">Run console.info</button>
+      <!-- Fake terminal window: the three colored dots mimic macOS traffic lights -->
+      <div class="console">
+        <div class="console-bar">
+          <span class="dot" style="background:#ff5f57"></span>
+          <span class="dot" style="background:#febc2e"></span>
+          <span class="dot" style="background:#28c840"></span>
+        </div>
+        <!-- Output lines are injected here by addLine() in script.js -->
+        <div class="console-body" id="out-info"></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LOG WARNING
+         console.warn() is for non-fatal issues that need attention.
+         DevTools styles entries in yellow with a triangle icon and
+         increments the warning counter in the toolbar. -->
+    <div class="block">
+      <div class="block-label">console.warn()</div>
+      <div class="block-desc">
+        Outputs a warning message. DevTools highlights it in yellow with a
+        triangle icon. Use for non-fatal issues that need attention.
+      </div>
+      <button class="btn a" onclick="runWarn()">Run console.warn</button>
+      <div class="console">
+        <div class="console-bar">
+          <span class="dot" style="background:#ff5f57"></span>
+          <span class="dot" style="background:#febc2e"></span>
+          <span class="dot" style="background:#28c840"></span>
+        </div>
+        <div class="console-body" id="out-warn"></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LOG ERROR
+         console.error() is for failures and exceptions. DevTools renders
+         these in red with a full expandable stack trace attached.
+         Also increments the red error counter in the toolbar. -->
+    <div class="block">
+      <div class="block-label">console.error()</div>
+      <div class="block-desc">
+        Outputs an error message with a full stack trace attached. Rendered in
+        red. Increments the error counter shown in the DevTools toolbar.
+      </div>
+      <button class="btn r" onclick="runError()">Run console.error</button>
+      <div class="console">
+        <div class="console-bar">
+          <span class="dot" style="background:#ff5f57"></span>
+          <span class="dot" style="background:#febc2e"></span>
+          <span class="dot" style="background:#28c840"></span>
+        </div>
+        <div class="console-body" id="out-error"></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LOG TABLE
+         console.table() accepts an array of objects and renders them as
+         a sortable, interactive table in DevTools. Each object key becomes
+         a column header. The HTML table below is a static visual preview
+         of the same analyst data passed to console.table(). -->
+    <div class="block">
+      <div class="block-label">console.table()</div>
+      <div class="block-desc">
+        Renders an array of objects as a sortable, interactive table inside
+        DevTools. Each object key becomes a column. The static preview below
+        shows the data being passed in.
+      </div>
+      <button class="btn g" onclick="runTable()">Run console.table</button>
+
+      <!-- Static HTML preview of the analyst array that gets passed to console.table() -->
+      <table class="data-table">
+        <thead><tr><th>name</th><th>role</th><th>clearance</th></tr></thead>
+        <tbody>
+          <tr><td>Alice</td><td>SOC Analyst</td><td>L1</td></tr>
+          <tr><td>Bob</td><td>Threat Hunter</td><td>L3</td></tr>
+          <tr><td>Carol</td><td>Pen Tester</td><td>L2</td></tr>
+        </tbody>
+      </table>
+
+      <div class="console">
+        <div class="console-bar">
+          <span class="dot" style="background:#ff5f57"></span>
+          <span class="dot" style="background:#febc2e"></span>
+          <span class="dot" style="background:#28c840"></span>
+        </div>
+        <div class="console-body" id="out-table"></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LOG GROUP
+         console.group() opens a collapsible group in DevTools.
+         All console calls between group() and groupEnd() are nested
+         under that header. Groups can be nested for deeper hierarchy.
+         Useful for organizing request data, event payloads, etc. -->
+    <div class="block">
+      <div class="block-label">console.group()</div>
+      <div class="block-desc">
+        Nests related messages under a collapsible group header in DevTools.
+        Closed with <code>console.groupEnd()</code>. Useful for organizing
+        request or event data into readable hierarchies.
+      </div>
+      <button class="btn v" onclick="runGroup()">Run console.group</button>
+      <div class="console">
+        <div class="console-bar">
+          <span class="dot" style="background:#ff5f57"></span>
+          <span class="dot" style="background:#febc2e"></span>
+          <span class="dot" style="background:#28c840"></span>
+        </div>
+        <div class="console-body" id="out-group"></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- LOG CUSTOM (styled with %c)
+         The %c format specifier lets you inject CSS into a console.log call.
+         The browser applies the CSS string (passed as the 2nd argument)
+         to the text that follows the %c token.
+         Multiple %c tokens can appear in the same string for multi-style output.
+         This only works in Chromium-based browsers. -->
+    <div class="block">
+      <div class="block-label">console.log() with %c styling</div>
+      <div class="block-desc">
+        The <code>%c</code> format specifier applies inline CSS to console
+        output. Pass the style string as a second argument. Only supported
+        in Chromium-based browsers.
+      </div>
+      <button class="btn" onclick="runCustom()">Run styled log</button>
+      <div class="console">
+        <div class="console-bar">
+          <span class="dot" style="background:#ff5f57"></span>
+          <span class="dot" style="background:#febc2e"></span>
+          <span class="dot" style="background:#28c840"></span>
+        </div>
+        <div class="console-body" id="out-custom"></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================
+       TAB 2: BROWSER ERRORS
+       Covers: 404 network error, TypeError, Violation
+
+       These are messages the browser logs on its own — not written
+       by user code — demonstrating how DevTools surfaces them
+       automatically when something goes wrong at runtime.
+       ========================================================== -->
+  <section id="tab-browser" class="section">
+    <div class="section-title">View Messages Logged by the Browser</div>
+
+    <!-- 404 NETWORK ERROR
+         cause404() in script.js calls fetch() with a path that does not
+         exist on the server. The browser returns HTTP 404 and automatically
+         logs a red network error in the Console. The same failed request
+         also appears in the Network tab with status 404. -->
+    <div class="block">
+      <div class="block-label">404 Network Error</div>
+      <div class="block-desc">
+        Requesting a URL that does not exist returns a 404 status. The browser
+        logs a red network error to the Console automatically. It also appears
+        in the Network tab with status 404.
+      </div>
+      <button class="btn r" onclick="cause404()">Trigger 404</button>
+
+      <!-- Displays the caught error message text after the fetch rejects -->
+      <div class="outbox" id="out-404">Waiting for trigger...</div>
+
+      <!-- Tells the grader exactly where to look in DevTools -->
+      <div class="callout">
+        <strong>Where to look:</strong> Console tab shows a red network error
+        entry. Network tab shows the failed request with status 404. Filter
+        by Fetch or XHR to isolate it.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- TYPEERROR
+         causeTypeError() in script.js intentionally calls .toUpperCase() on
+         an undefined variable. This produces a TypeError at runtime.
+         The error is caught with try/catch so the page keeps running,
+         and then re-logged via console.error() so DevTools shows the
+         full stack trace as it would in a real uncaught scenario. -->
+    <div class="block">
+      <div class="block-label">TypeError</div>
+      <div class="block-desc">
+        Accessing a property or calling a method on <code>null</code> or
+        <code>undefined</code> throws a TypeError at runtime. The browser logs
+        it with a full stack trace pointing to the source line.
+      </div>
+      <button class="btn r" onclick="causeTypeError()">Trigger TypeError</button>
+
+      <!-- Displays the caught error name + message string -->
+      <div class="outbox" id="out-type">Waiting for trigger...</div>
+
+      <div class="callout">
+        <strong>Where to look:</strong> Console tab shows the red TypeError
+        entry. Click the source link on the right side of the entry to jump
+        to the offending line in the Sources panel.
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- VIOLATION
+         Chrome fires [Violation] warnings when the main thread is blocked
+         longer than ~50ms. causeViolation() in script.js demonstrates two
+         patterns that trigger these warnings:
+
+           1. Forced layout reflow — the loop alternates writing a style
+              property and reading offsetWidth. Each offsetWidth read forces
+              Chrome to recalculate layout synchronously, which the browser
+              flags as a "Forced reflow" violation.
+
+           2. Busy-wait loop — spins for ~120ms doing nothing, blocking
+              the thread long enough to trigger a "Long running JavaScript
+              task" violation.
+
+         Violations appear under the Verbose log level in the Console. -->
+    <div class="block">
+      <div class="block-label">Violation</div>
+      <div class="block-desc">
+        Long-running synchronous tasks that block the main thread beyond
+        roughly 50ms generate a Violation warning. Alternating DOM reads and
+        writes in a tight loop also triggers forced reflow violations. Set the
+        Console log level to Verbose to see these entries.
+      </div>
+      <button class="btn a" onclick="causeViolation()">Trigger Violation</button>
+
+      <!-- Shows elapsed time of the blocking task once it finishes -->
+      <div class="outbox" id="out-violation">Waiting for trigger...</div>
+
+      <div class="callout">
+        <strong>Where to look:</strong> Open Console, set the log level
+        dropdown to Verbose. After triggering, look for yellow [Violation]
+        entries labeled "Forced reflow" or "Long running JavaScript task."
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================================
+       TAB 3: FILTER MESSAGES
+       Covers: filter by level, text, regex, source, user messages
+
+       Workflow:
+         1. Click "Seed Console" to write 10 mixed entries to the real
+            DevTools Console and to the in-memory store[] array in script.js.
+         2. Use each filter control below to see matching entries rendered.
+            This mirrors what the DevTools filter bar does natively.
+       ========================================================== -->
+  <section id="tab-filter" class="section">
+    <div class="section-title">Filter Messages</div>
+
+    <!-- SEED BUTTON
+         seedAll() in script.js writes 10 varied entries (info/warn/error/log)
+         from sources: script, network, browser — both to the DevTools console
+         and to the store[] array that all filter functions below query. -->
+    <div class="block">
+      <div class="block-desc">
+        Click below to seed the DevTools console with 10 mixed log entries
+        across multiple levels and sources. Each filter below then simulates
+        how DevTools isolates them.
+      </div>
+      <button class="btn g" onclick="seedAll()">Seed Console</button>
+      <!-- seedAll() updates this text with a timestamp after writing entries -->
+      <div class="hint-text" id="seed-hint">10 entries will be written to the DevTools console.</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FILTER BY LOG LEVEL
+         In DevTools, the log-level dropdown in the top-right of the Console
+         panel can be set to: Default, Verbose, Info, Warnings, or Errors.
+         Selecting a level hides all entries that do not match that severity.
+         filterLevel() in script.js does the same on store[]. -->
+    <div class="block">
+      <div class="block-label">Filter by Log Level</div>
+      <div class="block-desc">
+        The DevTools log level dropdown (Default, Verbose, Info, Warnings,
+        Errors) shows or hides entries by severity. Select a level below to
+        simulate that filtering.
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">Level</span>
+        <!-- onchange fires filterLevel() which filters store[] and re-renders -->
+        <select class="finput" id="level-select" onchange="filterLevel()">
+          <option value="all">All</option>
+          <option value="info">Info</option>
+          <option value="warn">Warning</option>
+          <option value="error">Error</option>
+          <option value="log">Log</option>
+        </select>
+      </div>
+      <!-- renderFilter() injects matching entries as tag+message rows here -->
+      <div class="filter-result" id="level-result"></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FILTER BY TEXT
+         In DevTools, typing plain text into the filter bar hides any console
+         message that does not contain that string (case insensitive).
+         filterText() in script.js performs the same substring match on store[]. -->
+    <div class="block">
+      <div class="block-label">Filter by Text</div>
+      <div class="block-desc">
+        Typing a string into the DevTools filter bar hides all messages that
+        do not contain that substring.
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">Search</span>
+        <!-- oninput fires on every keystroke for real-time filtering -->
+        <input class="finput" id="text-input" placeholder="e.g. fetch" oninput="filterText()">
+      </div>
+      <div class="filter-result" id="text-result"></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FILTER BY REGEX
+         In DevTools, prefixing a filter string with / enables regex mode.
+         e.g. /404|type/i matches messages containing either "404" or "type"
+         (case insensitive). filterRegex() in script.js detects the
+         /pattern/flags syntax and constructs a RegExp object to test store[]. -->
+    <div class="block">
+      <div class="block-label">Filter by Regular Expression</div>
+      <div class="block-desc">
+        Prefix a filter with <code>/</code> in DevTools to switch to regex
+        mode. Supports standard JS syntax with flags. Enter a pattern below
+        to test against the seeded entries.
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">Regex</span>
+        <input class="finput" id="regex-input" placeholder="e.g. /404|type/i" oninput="filterRegex()">
+      </div>
+      <div class="filter-result" id="regex-result"></div>
+      <div class="hint-text">Wrap pattern in / / for flags. Example: /auth|token/i</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FILTER BY MESSAGE SOURCE
+         DevTools categorizes messages by where they originated:
+           network  — errors from fetch/XHR calls (404s, CORS failures, etc.)
+           script   — user-written console.* calls
+           browser  — runtime messages: CSP violations, deprecations, etc.
+         filterSource() in script.js filters store[] by the source property. -->
+    <div class="block">
+      <div class="block-label">Filter by Message Source</div>
+      <div class="block-desc">
+        Messages originate from different sources: network requests, script
+        execution, or the browser runtime itself. DevTools lets you narrow
+        output by source using the sidebar.
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">Source</span>
+        <select class="finput" id="source-select" onchange="filterSource()">
+          <option value="all">All sources</option>
+          <option value="network">network</option>  <!-- fetch/XHR errors -->
+          <option value="script">script</option>    <!-- user console.* calls -->
+          <option value="browser">browser</option>  <!-- CSP, violations, etc. -->
+        </select>
+      </div>
+      <div class="filter-result" id="source-result"></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- FILTER BY USER MESSAGES
+         DevTools sidebar has a "User messages" shortcut that toggles
+         visibility of only messages written by the developer's own JS code,
+         hiding everything the browser logged automatically.
+         filterUser() in script.js uses the user:true/false flag on store[]. -->
+    <div class="block">
+      <div class="block-label">Filter by User Messages</div>
+      <div class="block-desc">
+        The User Messages filter in the DevTools sidebar shows only messages
+        written by your own JavaScript code via console methods, isolating
+        them from browser-generated entries.
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">Show</span>
+        <select class="finput" id="user-select" onchange="filterUser()">
+          <option value="all">All messages</option>
+          <option value="user">User messages</option>      <!-- user:true in store[] -->
+          <option value="browser">Browser messages</option> <!-- user:false in store[] -->
+        </select>
+      </div>
+      <div class="filter-result" id="user-result"></div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- External JS — all interactivity and console calls live in script.js.
+     Placed at the bottom of <body> so the DOM is fully parsed before
+     the script runs and getElementById() calls succeed. -->
+<script src="script.js"></script>
+</body>
+</html>
