@@ -1,73 +1,57 @@
 /* ================================================================
    style.css — HW10 Chrome DevTools Demo
-   Isaiah | CIT 336
+   Isaiah | COMP 484/L
 
    Table of contents:
-     1. CSS custom properties (design tokens)
-     2. Reset and base
-     3. Header
-     4. Tab navigation
-     5. Main layout
-     6. Section titles
-     7. Content blocks
-     8. Buttons
-     9. Console preview widgets
-    10. Output / callout boxes
-    11. Divider
-    12. Filter controls
-    13. Tags (level/source badges)
-    14. Data table (console.table preview)
+     1.  CSS custom properties (design tokens)
+     2.  Reset and base
+     3.  Header
+     4.  Tab navigation
+     5.  Main layout
+     6.  Section titles
+     7.  Content blocks
+     8.  Buttons
+     9.  Console preview widgets
+     10. Output / callout boxes
+     11. Divider
+     12. Filter controls
+     13. Tags (level/source badges)
+     14. Data table (console.table preview)
+     15. Debugging tab styles
    ================================================================ */
 
 
 /* ----------------------------------------------------------------
    1. CSS CUSTOM PROPERTIES
-   All colors, fonts, and spacing values live here as variables
-   so they can be changed in one place and propagate everywhere.
    ---------------------------------------------------------------- */
 :root {
-  /* Background layers — progressively lighter surfaces */
-  --black:       #080809;   /* page background */
-  --surface0:    #0f0f11;   /* header, nav, console panels */
-  --surface1:    #161618;   /* console title bar, callout backgrounds */
-  --surface2:    #1e1e21;   /* default button background */
-  --surface3:    #262629;   /* button hover state */
-
-  /* Border colors */
-  --line:        #2e2e32;   /* standard dividers and card borders */
-  --line2:       #3a3a3f;   /* slightly brighter borders (inputs, table) */
-
-  /* Text colors */
-  --text:        #d8d8dc;   /* primary text */
-  --text2:       #8a8a94;   /* secondary / muted text */
-  --text3:       #52525a;   /* hint text, section titles, placeholders */
-
-  /* Accent colors — each paired with a dim version for backgrounds */
+  --black:       #080809;
+  --surface0:    #0f0f11;
+  --surface1:    #161618;
+  --surface2:    #1e1e21;
+  --surface3:    #262629;
+  --line:        #2e2e32;
+  --line2:       #3a3a3f;
+  --text:        #d8d8dc;
+  --text2:       #8a8a94;
+  --text3:       #52525a;
   --green:       #3dffa0;
   --green-dim:   #0e2418;
-
   --blue:        #4db8ff;
   --blue-dim:    #0b1e2e;
-
   --amber:       #ffb347;
   --amber-dim:   #231600;
-
   --red:         #ff5f5f;
   --red-dim:     #1f0000;
-
   --violet:      #b09eff;
   --violet-dim:  #130f2a;
-
-  /* Font stacks */
-  --mono: 'IBM Plex Mono', monospace;   /* code, labels, console output */
-  --sans: 'IBM Plex Sans', sans-serif;  /* body copy, descriptions */
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
 }
 
 
 /* ----------------------------------------------------------------
    2. RESET AND BASE
-   Box-sizing border-box on everything prevents width surprises.
-   Base font is --sans at 14px with comfortable 1.6 line-height.
    ---------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -87,19 +71,16 @@ html, body {
 
 /* ----------------------------------------------------------------
    3. HEADER
-   Fixed to the top. Uses flexbox to push the hint text to the
-   right side while the title stays left-aligned.
    ---------------------------------------------------------------- */
 header {
   background: var(--surface0);
   border-bottom: 1px solid var(--line);
   padding: 20px 32px;
   display: flex;
-  align-items: flex-end;          /* align both sides to their baselines */
+  align-items: flex-end;
   justify-content: space-between;
 }
 
-/* Small all-caps label above the main heading */
 .header-left .kicker {
   font-family: var(--mono);
   font-size: 10px;
@@ -118,7 +99,6 @@ header {
   letter-spacing: -0.3px;
 }
 
-/* Right side: multi-line DevTools reminder in muted mono text */
 .header-right {
   font-family: var(--mono);
   font-size: 11px;
@@ -130,20 +110,19 @@ header {
 
 /* ----------------------------------------------------------------
    4. TAB NAVIGATION
-   Horizontal list of buttons. The active tab gets a green underline
-   via border-bottom. JS toggles the .active class on click.
    ---------------------------------------------------------------- */
 nav {
   background: var(--surface0);
   border-bottom: 1px solid var(--line);
   display: flex;
   padding: 0 32px;
+  overflow-x: auto;
 }
 
 nav button {
   background: none;
   border: none;
-  border-bottom: 2px solid transparent; /* placeholder so layout doesn't shift on active */
+  border-bottom: 2px solid transparent;
   color: var(--text3);
   cursor: pointer;
   font-family: var(--mono);
@@ -153,21 +132,15 @@ nav button {
   padding: 13px 20px;
   text-transform: uppercase;
   transition: color .15s, border-color .15s;
+  white-space: nowrap;
 }
 
 nav button:hover { color: var(--text2); }
-
-/* Active state: green underline + green text */
-nav button.active {
-  border-bottom-color: var(--green);
-  color: var(--green);
-}
+nav button.active { border-bottom-color: var(--green); color: var(--green); }
 
 
 /* ----------------------------------------------------------------
    5. MAIN LAYOUT
-   Centered content column. Sections are hidden by default and
-   shown by JS adding the .active class.
    ---------------------------------------------------------------- */
 main {
   max-width: 880px;
@@ -181,8 +154,6 @@ main {
 
 /* ----------------------------------------------------------------
    6. SECTION TITLES
-   Small all-caps mono label at the top of each tab section.
-   The bottom border visually separates it from content below.
    ---------------------------------------------------------------- */
 .section-title {
   font-family: var(--mono);
@@ -199,9 +170,6 @@ main {
 
 /* ----------------------------------------------------------------
    7. CONTENT BLOCKS
-   Each block is one demo item (e.g. console.info demo).
-   .block-label is the method name heading.
-   .block-desc is the explanation paragraph.
    ---------------------------------------------------------------- */
 .block { margin-bottom: 24px; }
 
@@ -221,7 +189,6 @@ main {
   margin-bottom: 12px;
 }
 
-/* Inline code snippets inside descriptions */
 .block-desc code {
   font-family: var(--mono);
   font-size: 11.5px;
@@ -234,9 +201,6 @@ main {
 
 /* ----------------------------------------------------------------
    8. BUTTONS
-   Base .btn style is neutral. Color variants (.g .b .a .r .v) set
-   border and text to the matching accent color, and darken the
-   background to the dim version on hover.
    ---------------------------------------------------------------- */
 .btn {
   background: var(--surface2);
@@ -253,49 +217,27 @@ main {
 }
 
 .btn:hover { background: var(--surface3); color: var(--text); }
-
-/* Green — used for info/success actions */
 .btn.g { border-color: var(--green-dim); color: var(--green); }
 .btn.g:hover { background: var(--green-dim); }
-
-/* Blue — used for console.info */
 .btn.b { border-color: var(--blue-dim); color: var(--blue); }
 .btn.b:hover { background: var(--blue-dim); }
-
-/* Amber — used for console.warn and violation */
 .btn.a { border-color: var(--amber-dim); color: var(--amber); }
 .btn.a:hover { background: var(--amber-dim); }
-
-/* Red — used for console.error, 404, TypeError */
 .btn.r { border-color: var(--red-dim); color: var(--red); }
 .btn.r:hover { background: var(--red-dim); }
-
-/* Violet — used for console.group */
 .btn.v { border-color: var(--violet-dim); color: var(--violet); }
 .btn.v:hover { background: var(--violet-dim); }
 
 
 /* ----------------------------------------------------------------
    9. CONSOLE PREVIEW WIDGETS
-   Fake terminal windows that display inline output previews.
-   .console        — outer container
-   .console-bar    — macOS-style title bar with three colored dots
-   .dot            — the circular traffic-light buttons (decorative)
-   .console-body   — where addLine() in script.js injects output rows
-   .cline          — a single console output line
-     .i  info      — blue left border + blue text
-     .w  warn      — amber left border + amber text
-     .e  error     — red left border + red text
-     .l  log       — dim left border + muted text
-     .g  group     — green left border + green text
-     .v  custom    — violet left border + violet text
    ---------------------------------------------------------------- */
 .console {
   background: var(--surface0);
   border: 1px solid var(--line);
   border-radius: 5px;
   margin-top: 10px;
-  overflow: hidden;             /* clips rounded corners on child elements */
+  overflow: hidden;
 }
 
 .console-bar {
@@ -307,28 +249,17 @@ main {
   padding: 6px 12px;
 }
 
-/* Individual traffic-light dot */
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
 
 .console-body {
   font-family: var(--mono);
   font-size: 11.5px;
   line-height: 1.7;
-  min-height: 48px;             /* keeps the box from collapsing before output */
+  min-height: 48px;
   padding: 10px 14px;
 }
 
-/* Base line style — left border color and text color set per variant below */
-.cline {
-  border-left: 2px solid transparent;
-  margin: 1px 0;
-  padding: 1px 0 1px 8px;
-}
-
+.cline { border-left: 2px solid transparent; margin: 1px 0; padding: 1px 0 1px 8px; }
 .cline.i { color: var(--blue);   border-color: var(--blue); }
 .cline.w { color: var(--amber);  border-color: var(--amber); }
 .cline.e { color: var(--red);    border-color: var(--red); }
@@ -339,9 +270,6 @@ main {
 
 /* ----------------------------------------------------------------
    10. OUTPUT AND CALLOUT BOXES
-   .outbox   — plain pre-formatted text area for browser error output
-   .callout  — blue-accented hint box that tells the user where to
-               look in DevTools after triggering an error
    ---------------------------------------------------------------- */
 .outbox {
   background: var(--surface0);
@@ -354,13 +282,13 @@ main {
   margin-top: 10px;
   min-height: 42px;
   padding: 10px 14px;
-  white-space: pre-wrap;        /* preserves newlines in multi-line error text */
+  white-space: pre-wrap;
 }
 
 .callout {
   background: var(--surface1);
   border: 1px solid var(--line);
-  border-left: 2px solid var(--blue); /* blue left accent draws the eye */
+  border-left: 2px solid var(--blue);
   border-radius: 4px;
   color: var(--text2);
   font-size: 12px;
@@ -369,18 +297,11 @@ main {
   padding: 10px 14px;
 }
 
-/* "Where to look:" label inside the callout */
-.callout strong {
-  color: var(--blue);
-  font-weight: 500;
-}
+.callout strong { color: var(--blue); font-weight: 500; }
 
 
 /* ----------------------------------------------------------------
    11. DIVIDER
-   Thin horizontal rule between blocks in a section.
-   Uses border-top instead of the default <hr> border so it
-   inherits the --line color cleanly.
    ---------------------------------------------------------------- */
 .divider {
   border: none;
@@ -391,16 +312,11 @@ main {
 
 /* ----------------------------------------------------------------
    12. FILTER CONTROLS
-   .filter-row    — flex row containing label + input
-   .filter-label  — uppercase mono label on the left
-   .finput        — shared style for text inputs and selects
-   .filter-result — the box where matching entries are rendered
-   .hint-text     — small helper text below an input
    ---------------------------------------------------------------- */
 .filter-row {
   align-items: center;
   display: flex;
-  flex-wrap: wrap;              /* wraps on small screens */
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 8px;
 }
@@ -410,11 +326,10 @@ main {
   font-size: 10.5px;
   color: var(--text3);
   letter-spacing: 1px;
-  min-width: 90px;              /* keeps labels aligned across rows */
+  min-width: 90px;
   text-transform: uppercase;
 }
 
-/* Shared style for <input type="text"> and <select> filter controls */
 .finput {
   background: var(--surface1);
   border: 1px solid var(--line2);
@@ -428,10 +343,8 @@ main {
   width: 230px;
 }
 
-/* Green focus ring matches the overall accent theme */
 .finput:focus { border-color: var(--green); }
 
-/* Where renderFilter() injects the matching entries */
 .filter-result {
   background: var(--surface0);
   border: 1px solid var(--line);
@@ -443,7 +356,6 @@ main {
   padding: 8px 12px;
 }
 
-/* Small muted text below inputs (regex usage hint, seed timestamp) */
 .hint-text {
   color: var(--text3);
   font-family: var(--mono);
@@ -454,12 +366,6 @@ main {
 
 /* ----------------------------------------------------------------
    13. TAGS (level and source badges)
-   Small pill-shaped labels shown next to each filter result row.
-   .ti  info badge  — blue
-   .tw  warn badge  — amber
-   .te  error badge — red
-   .tl  log badge   — gray (neutral)
-   .ts  source badge — violet
    ---------------------------------------------------------------- */
 .tag {
   border-radius: 3px;
@@ -480,15 +386,12 @@ main {
 .tl { background: var(--surface3);   color: var(--text2); }
 .ts { background: var(--violet-dim); color: var(--violet); }
 
-/* A single filter result row: tags on the left, message text on the right */
 .fline { color: var(--text2); padding: 2px 0; }
 .fline .msg { color: var(--text); margin-left: 4px; }
 
 
 /* ----------------------------------------------------------------
-   14. DATA TABLE (console.table static preview)
-   Used in the console.table() demo to show the data that will be
-   passed to console.table() before the button is clicked.
+   14. DATA TABLE (console.table preview)
    ---------------------------------------------------------------- */
 .data-table {
   border-collapse: collapse;
@@ -516,11 +419,176 @@ main {
   padding: 7px 12px;
 }
 
-/* No border on the last row — avoids a double-line with the container edge */
 .data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--surface1); color: var(--text); }
 
-/* Subtle row highlight on hover for readability */
-.data-table tr:hover td {
+
+/* ----------------------------------------------------------------
+   15. DEBUGGING TAB STYLES
+
+   .step-badge    — numbered step label above each block
+   .pane-grid     — three-column layout for Sources UI pane cards
+   .pane-card     — individual card describing one Sources pane
+   .pane-title    — pane card heading
+   .pane-body     — pane card description text
+   .code-block    — monospace block showing a code line or snippet
+   .inspect-block — sub-section inside Step 5 for each inspect method
+   .inspect-label — heading for each inspect sub-section
+   .inspect-desc  — description text inside an inspect block
+   .diff-grid     — two-column before/after code comparison
+   .diff-panel    — one side of the before/after diff
+   .diff-label    — "Before" / "After" label above each diff panel
+   .bad           — red tint for the buggy code panel
+   .good          — green tint for the fixed code panel
+   .diff-code     — the actual code text inside a diff panel
+   ---------------------------------------------------------------- */
+
+/* Numbered step label — green mono text above the block title */
+.step-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--green);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+/* Three equal-width cards showing the three Sources panes */
+.pane-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width: 640px) {
+  /* Stack the pane cards vertically on small screens */
+  .pane-grid { grid-template-columns: 1fr; }
+}
+
+.pane-card {
   background: var(--surface1);
-  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 14px;
+}
+
+.pane-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+
+.pane-body {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.pane-body code {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--amber);
+  background: var(--amber-dim);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+/* Monospace code block — used for the breakpoint line and Watch expressions */
+.code-block {
+  background: var(--surface1);
+  border: 1px solid var(--line2);
+  border-left: 2px solid var(--amber);
+  border-radius: 4px;
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-top: 8px;
+  padding: 8px 14px;
+}
+
+/* Container for each inspect method (Scope, Watch, Console) in Step 5 */
+.inspect-block {
+  background: var(--surface1);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  margin-top: 14px;
+  padding: 14px 16px;
+}
+
+.inspect-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--violet);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.inspect-desc {
+  font-size: 12.5px;
+  color: var(--text2);
+  line-height: 1.65;
+  margin-bottom: 6px;
+}
+
+.inspect-desc code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--amber);
+  background: var(--amber-dim);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+/* Two-column diff showing buggy vs fixed code side by side */
+.diff-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width: 560px) {
+  .diff-grid { grid-template-columns: 1fr; }
+}
+
+.diff-panel {
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* "Before (buggy)" / "After (fixed)" label above each diff code block */
+.diff-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 5px 12px;
+  text-transform: uppercase;
+}
+
+/* Red tint label for the buggy version */
+.diff-label.bad {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+/* Green tint label for the fixed version */
+.diff-label.good {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+/* Code content inside each diff panel */
+.diff-code {
+  border-radius: 0 0 4px 4px;
+  font-size: 11.5px;
+  line-height: 1.8;
+  margin-top: 0;
+}
 }
