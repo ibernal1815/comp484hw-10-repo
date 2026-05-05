@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GigaPet</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>GigaPet</h1>
+    <p>Take care of your virtual dog!</p>
+  </header>
+
+  <main>
+    <div class="pet-section">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" class="pet-image">
+        <ellipse cx="60" cy="82" rx="34" ry="26" fill="#c8945a"/>
+        <ellipse cx="60" cy="90" rx="18" ry="14" fill="#e8c08a"/>
+        <path d="M 92 70 Q 112 55 106 42" stroke="#c8945a" stroke-width="9" fill="none" stroke-linecap="round"/>
+        <rect x="38" y="100" width="11" height="17" rx="5" fill="#b07a44"/>
+        <rect x="71" y="100" width="11" height="17" rx="5" fill="#b07a44"/>
+        <circle cx="60" cy="46" r="23" fill="#c8945a"/>
+        <ellipse cx="40" cy="32" rx="9" ry="15" fill="#9c6830" transform="rotate(-18 40 32)"/>
+        <ellipse cx="80" cy="32" rx="9" ry="15" fill="#9c6830" transform="rotate(18 80 32)"/>
+        <circle cx="52" cy="43" r="4.5" fill="#1e120a"/>
+        <circle cx="68" cy="43" r="4.5" fill="#1e120a"/>
+        <circle cx="54" cy="41" r="1.5" fill="white"/>
+        <circle cx="70" cy="41" r="1.5" fill="white"/>
+        <ellipse cx="60" cy="53" rx="6" ry="4" fill="#1e120a"/>
+        <path d="M 54 57 Q 60 63 66 57" stroke="#1e120a" stroke-width="1.8" fill="none"/>
+        <ellipse id="tongue" cx="60" cy="63" rx="5" ry="6" fill="#e05070" style="display:none"/>
+        <rect x="44" y="62" width="32" height="7" rx="3" fill="#5c8aff"/>
+        <circle cx="60" cy="66" r="2.5" fill="#ff7eb3"/>
+      </svg>
+
+      <div id="notification" class="notification-bubble"></div>
+
+    </div>
+
+    <div class="dashboard">
+      <div>Name: <strong><span class="name"></span></strong></div>
+      <div>Weight: <strong><span class="weight"></span> pounds</strong></div>
+      <div>Happiness: <strong><span class="happiness"></span> tail wags (per min)</strong></div>
+      <div>Mood: <strong><span class="mood"></span></strong></div>
+
+      <div class="bar-wrap">
+        <div id="happiness-bar"></div>
+      </div>
+
+      <div class="button-container">
+        <button class="treat-button">Treat</button>
+        <button class="play-button">Play</button>
+        <button class="exercise-button">Exercise</button>
+        <button class="sleep-button">Sleep</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+          integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+          crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

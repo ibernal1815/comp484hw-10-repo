@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0b0c14;
+  color: #e8e6f0;
+  padding: 32px 16px 64px;
+  min-height: 100vh;
+}
+
+header {
+  margin-bottom: 32px;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  color: #7c5cfc;
+  margin-bottom: 4px;
+}
+
+header p {
+  color: #6b6880;
+  font-size: 14px;
+}
+
+main {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.pet-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pet-image {
+  width: 200px;
+  height: 200px;
+  background: #13141f;
+  border: 1px solid #2a2c40;
+  border-radius: 16px;
+  padding: 12px;
+  transition: opacity 0.4s ease;
+}
+
+.pet-image.wag {
+  animation: wag 0.12s ease-in-out 5 alternate;
+}
+
+@keyframes wag {
+  from { transform: rotate(-3deg) translateX(-3px); }
+  to   { transform: rotate(3deg) translateX(3px); }
+}
+
+.pet-image.bounce {
+  animation: bounce 0.15s ease-in-out 3 alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-8px); }
+}
+
+.notification-bubble {
+  display: none;
+  background: #13141f;
+  border: 1px solid #7c5cfc;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #e8e6f0;
+  text-align: center;
+  width: 200px;
+  position: relative;
+}
+
+.notification-bubble::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 9px solid #7c5cfc;
+}
+
+.dashboard {
+  background: #13141f;
+  border: 1px solid #2a2c40;
+  border-radius: 16px;
+  padding: 24px;
+  min-width: 260px;
+}
+
+.dashboard div {
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #b0aec0;
+}
+
+.dashboard strong {
+  color: #e8e6f0;
+}
+
+.bar-wrap {
+  background: #1c1e2d;
+  border-radius: 999px;
+  height: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 1px solid #2a2c40;
+}
+
+#happiness-bar {
+  height: 100%;
+  width: 70%;
+  background: #3ddc84;
+  border-radius: 999px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.button-container button {
+  padding: 10px 16px;
+  font-size: 14px;
+  border: 1px solid #2a2c40;
+  border-radius: 8px;
+  background: #1c1e2d;
+  color: #e8e6f0;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+
+.button-container button:hover {
+  background: #232535;
+  border-color: #7c5cfc;
+}
+
+.button-container button:active {
+  transform: translateY(1px);
+}
